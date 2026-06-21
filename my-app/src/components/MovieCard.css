@@ -1,0 +1,37 @@
+.movie-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  max-width: 240px;
+  overflow: hidden;
+}
+
+.movie-card-poster {
+  display: block;
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+}
+
+.movie-card-poster-placeholder {
+  background: #eee;
+}
+
+.movie-card-body {
+  padding: 12px;
+}
+
+.movie-card-title {
+  margin: 0 0 8px;
+  font-size: 1rem;
+}
+
+.movie-card-meta,
+.movie-card-rating {
+  margin: 0;
+  font-size: 0.875rem;
+  color: #555;
+}
+
+.movie-card-rating {
+  margin-top: 8px;
+}
