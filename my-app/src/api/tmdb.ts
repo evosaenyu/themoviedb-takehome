@@ -35,7 +35,7 @@ export async function discoverMovies(): Promise<DiscoverMoviesResponse> {
   const url = new URL(`${BASE_URL}/discover/movie`);
   url.searchParams.set('api_key', apiKey);
   url.searchParams.set('language', 'en-US');
-  url.searchParams.set('sort_by', 'popularity.desc');
+  url.searchParams.set('sort_by', 'rating.desc');
 
   const response = await fetch(url);
 
