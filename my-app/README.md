@@ -9,4 +9,6 @@ I used the following command to bootstrap this project:
 `npm start`
 should run on localhost:3000
 
-
+## Test
+I added some really basic unit tests, using dummy data, for the Movie card, grid, and filter section. You can test with:
+`npm test`
