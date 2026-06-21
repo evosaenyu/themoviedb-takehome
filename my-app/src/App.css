@@ -6,11 +6,14 @@
   --color-card: #2d2d2d;
   --color-card-border: #404040;
   --color-poster-placeholder: #3d3d3d;
+  --font-sans: 'DM Sans', system-ui, sans-serif;
+  --font-display: 'Sora', system-ui, sans-serif;
 }
 
 body {
   background-color: var(--color-bg);
   color: var(--color-text);
+  font-family: var(--font-sans);
 }
 
 .app {
@@ -42,6 +45,7 @@ body {
 .app-title {
   margin: 0 0 24px;
   color: var(--color-heading);
+  font-family: var(--font-display);
   font-size: 1.75rem;
 }
 
@@ -72,6 +76,7 @@ body {
 
 .toolbar-label {
   color: var(--color-muted);
+  font-family: var(--font-sans);
   font-size: 0.75rem;
   font-weight: 500;
   letter-spacing: 0.05em;
@@ -107,6 +112,7 @@ body {
   border-radius: 999px;
   background: var(--color-bg);
   color: var(--color-muted);
+  font-family: var(--font-sans);
   font-size: 0.75rem;
   font-weight: 500;
   cursor: pointer;
@@ -129,6 +135,7 @@ body {
   border-radius: 8px;
   background: var(--color-bg);
   color: var(--color-text);
+  font-family: var(--font-sans);
   font-size: 0.875rem;
   cursor: pointer;
 }
@@ -165,6 +172,7 @@ select.input-control:focus {
 select.input-control option {
   background: var(--color-card);
   color: var(--color-text);
+  font-family: var(--font-sans);
 }
 
 .empty-state {

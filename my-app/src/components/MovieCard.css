@@ -24,6 +24,7 @@
 .movie-card-title {
   margin: 0 0 8px;
   color: var(--color-heading);
+  font-family: var(--font-display);
   font-size: 1rem;
 }
 
