@@ -1,0 +1,25 @@
+:root {
+  --color-bg: #121212;
+  --color-text: #d1d5db;
+  --color-heading: #ffffff;
+  --color-muted: #9ca3af;
+  --color-card: #2d2d2d;
+  --color-card-border: #404040;
+  --color-poster-placeholder: #3d3d3d;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+.app {
+  min-height: 100vh;
+  padding: 24px;
+}
+
+.app-title {
+  margin: 0 0 24px;
+  color: var(--color-heading);
+  font-size: 1.75rem;
+}

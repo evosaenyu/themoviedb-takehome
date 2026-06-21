@@ -1,5 +1,6 @@
 .movie-card {
-  border: 1px solid #ddd;
+  background: var(--color-card);
+  border: 1px solid var(--color-card-border);
   border-radius: 8px;
   max-width: 240px;
   overflow: hidden;
@@ -13,7 +14,7 @@
 }
 
 .movie-card-poster-placeholder {
-  background: #eee;
+  background: var(--color-poster-placeholder);
 }
 
 .movie-card-body {
@@ -22,6 +23,7 @@
 
 .movie-card-title {
   margin: 0 0 8px;
+  color: var(--color-heading);
   font-size: 1rem;
 }
 
@@ -29,7 +31,7 @@
 .movie-card-rating {
   margin: 0;
   font-size: 0.875rem;
-  color: #555;
+  color: var(--color-muted);
 }
 
 .movie-card-rating {
