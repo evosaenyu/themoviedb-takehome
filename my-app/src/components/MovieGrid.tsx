@@ -7,8 +7,8 @@ import MovieCard from './MovieCard';
 import Toolbar from './Toolbar';
 import './MovieGrid.css';
 
-const INITIAL_PAGE_COUNT = 5;
-const LOAD_MORE_PAGE_COUNT = 5;
+const INITIAL_PAGE_COUNT = 2;
+const LOAD_MORE_PAGE_COUNT = 2;
 
 function MovieGrid() {
   const [lastLoadedPage, setLastLoadedPage] = useState<number>(0);

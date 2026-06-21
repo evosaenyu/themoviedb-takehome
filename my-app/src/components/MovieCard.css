@@ -7,6 +7,11 @@
   overflow: hidden;
 }
 
+.movie-card-poster-wrap {
+  position: relative;
+  background: var(--color-poster-placeholder);
+}
+
 .movie-card:focus-visible {
   outline: 2px solid var(--color-muted);
   outline-offset: 2px;
@@ -17,6 +22,14 @@
   width: 100%;
   aspect-ratio: 2 / 3;
   object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+.movie-card-poster.is-loaded {
+  opacity: 1;
 }
 
 .movie-card-poster-placeholder {
@@ -64,10 +77,12 @@
   font-size: 0.8125rem;
   line-height: 1.45;
   color: var(--color-text);
+  user-select: text;
 }
 
 .movie-card:hover .movie-card-tooltip,
 .movie-card:focus-within .movie-card-tooltip,
 .movie-card:focus-visible .movie-card-tooltip {
   opacity: 1;
+  pointer-events: auto;
 }
