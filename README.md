@@ -8,7 +8,7 @@ I used the following command to bootstrap this project:
 `npx create-react-app my-app --template typescript`
 
 ## Setup
-- `cd my-app && cp .env.template .env.local`
+- `cd my-app` and copy `.env.template` as `.env.local`
 - Get your themoviedb.org API key and set it in your `.env.local` file.
 - `npm install`
 - `npm start`
