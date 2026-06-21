@@ -1,11 +1,18 @@
 :root {
-  --color-bg: #121212;
-  --color-text: #d1d5db;
-  --color-heading: #ffffff;
-  --color-muted: #9ca3af;
-  --color-card: #2d2d2d;
-  --color-card-border: #404040;
-  --color-poster-placeholder: #3d3d3d;
+  --color-brand-primary: #7a9089;
+  --color-brand-secondary: #9a8778;
+  --color-brand-accent: #87899a;
+  --color-brand-subtle: rgba(122, 144, 137, 0.14);
+  --color-brand-muted: rgba(122, 144, 137, 0.45);
+
+  --color-bg: #131619;
+  --color-text: #c4c8cc;
+  --color-heading: #e4e6e9;
+  --color-muted: #8a9098;
+  --color-card: #1c2024;
+  --color-card-border: #2d3339;
+  --color-poster-placeholder: #252a2f;
+
   --font-sans: 'DM Sans', system-ui, sans-serif;
   --font-display: 'Sora', system-ui, sans-serif;
 }
