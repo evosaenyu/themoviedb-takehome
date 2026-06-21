@@ -1,13 +1,5 @@
+import type { MovieCardProps } from '../types';
 import './MovieCard.css';
-
-type MovieCardProps = {
-  title: string;
-  year: number;
-  genre: string;
-  rating: number;
-  posterUrl?: string;
-  overview: string;
-};
 
 function MovieCard({ title, year, genre, rating, posterUrl, overview }: MovieCardProps) {
   return (

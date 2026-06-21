@@ -1,13 +1,20 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { fetchMoviePages, getMovieGenres } from './api/tmdb';
 import MovieCard from './components/MovieCard';
-import { discoverMovies, Genre, getMovieGenres, TmdbMovie } from './api/tmdb';
+import type { Genre, SortOption, SortOrder, TmdbMovie } from './types';
+import { filterByGenre, mergeMovies, sortMovies } from './utils';
 import './App.css';
 
-type SortOption = 'rating' | 'year' | 'title';
-type SortOrder = 'asc' | 'desc';
+const INITIAL_PAGE_COUNT = 5;
+const LOAD_MORE_PAGE_COUNT = 5;
 
 function App() {
+  const [lastLoadedPage, setLastLoadedPage] = useState<number>(0);
+  const [totalPages, setTotalPages] = useState<number>(0);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [loadingMore, setLoadingMore] = useState<boolean>(false);
   const [movies, setMovies] = useState<TmdbMovie[]>([]);
+  const [sortedMovieCount, setSortedMovieCount] = useState<number>(0);
   const [error, setError] = useState<string | null>(null);
   const [genres, setGenres] = useState<Genre[]>([]);
   const [selectedGenreId, setSelectedGenreId] = useState<number | null>(null);
@@ -15,13 +22,6 @@ function App() {
   const [sortOrder, setSortOrder] = useState<SortOrder>('desc');
 
   useEffect(() => {
-    discoverMovies()
-      .then((data) => {
-        setMovies(data.results);
-      })
-      .catch((err) => {
-        setError(err.message);
-      });
     getMovieGenres()
       .then((data) => {
         setGenres(data);
@@ -31,36 +31,62 @@ function App() {
       });
   }, []);
 
-  const displayedMovies = useMemo(() => {
-    let result = [...movies];
+  useEffect(() => {
+    setSortedMovieCount(movies.length);
+  }, [sortBy, sortOrder]);
 
-    if (selectedGenreId !== null) {
-      result = result.filter((movie) => movie.genre_ids.includes(selectedGenreId));
+  useEffect(() => {
+    setLoading(true);
+
+    fetchMoviePages(1, INITIAL_PAGE_COUNT)
+      .then(({ movies: fetchedMovies, lastLoadedPage: loadedThrough, totalPages: pagesTotal }) => {
+        setMovies(fetchedMovies);
+        setSortedMovieCount(fetchedMovies.length);
+        setLastLoadedPage(loadedThrough);
+        setTotalPages(pagesTotal);
+      })
+      .catch((err) => {
+        setError(err instanceof Error ? err.message : 'Failed to load movies');
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
+
+  const hasMore = lastLoadedPage < totalPages;
+
+  const loadMore = useCallback(async () => {
+    if (loadingMore || !hasMore) return;
+
+    setLoadingMore(true);
+
+    try {
+      const { movies: fetchedMovies, lastLoadedPage: loadedThrough, totalPages: pagesTotal } =
+        await fetchMoviePages(lastLoadedPage + 1, LOAD_MORE_PAGE_COUNT, totalPages);
+
+      setTotalPages(pagesTotal);
+      setMovies((prev) => mergeMovies(prev, fetchedMovies));
+      setLastLoadedPage(loadedThrough);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to load more movies');
+    } finally {
+      setLoadingMore(false);
     }
+  }, [hasMore, lastLoadedPage, loadingMore, totalPages]);
 
-    result.sort((a, b) => {
-      let comparison = 0;
+  const displayedMovies = useMemo(() => {
+    const sortedSource = movies.slice(0, sortedMovieCount);
+    const appendedSource = movies.slice(sortedMovieCount);
 
-      switch (sortBy) {
-        case 'rating':
-          comparison = a.vote_average - b.vote_average;
-          break;
-        case 'year':
-          comparison = a.release_date.localeCompare(b.release_date);
-          break;
-        case 'title':
-          comparison = a.title.localeCompare(b.title);
-          break;
-        default:
-          comparison = movies.indexOf(a) - movies.indexOf(b);
-          break;
-      }
+    const sortedMovies = sortMovies(
+      filterByGenre(sortedSource, selectedGenreId),
+      sortBy,
+      sortOrder,
+    );
+    const appendedMovies = filterByGenre(appendedSource, selectedGenreId);
 
-      return sortOrder === 'asc' ? comparison : -comparison;
-    });
-
-    return result;
-  }, [movies, selectedGenreId, sortBy, sortOrder]);
+    return [...sortedMovies, ...appendedMovies];
+  }, [movies, sortedMovieCount, selectedGenreId, sortBy, sortOrder]);
 
   return (
     <main className="app">
@@ -117,27 +143,41 @@ function App() {
       </div>
 
       {error && <p>{error}</p>}
-
-      {displayedMovies.length === 0 && !error ? (
+      {loading && <p>Loading...</p>}
+      {!loading && displayedMovies.length === 0 && !error ? (
         <p className="empty-state">No movies match your filter.</p>
       ) : (
-        <div className="movie-grid">
-          {displayedMovies.map((movie) => (
-            <MovieCard
-              key={movie.id}
-              title={movie.title}
-              year={Number(movie.release_date?.slice(0, 4)) || 0}
-              genre={genres.find((genre) => genre.id === movie.genre_ids[0])?.name || 'Unknown'}
-              rating={movie.vote_average}
-              posterUrl={
-                movie.poster_path
-                  ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
-                  : undefined
-              }
-              overview={movie.overview}
-            />
-          ))}
-        </div>
+        <>
+          <div className="movie-grid">
+            {displayedMovies.map((movie) => (
+              <MovieCard
+                key={movie.id}
+                title={movie.title}
+                year={Number(movie.release_date?.slice(0, 4)) || 0}
+                genre={genres.find((genre) => genre.id === movie.genre_ids[0])?.name || 'Unknown'}
+                rating={movie.vote_average}
+                posterUrl={
+                  movie.poster_path
+                    ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+                    : undefined
+                }
+                overview={movie.overview}
+              />
+            ))}
+          </div>
+          {hasMore && (
+            <div className="load-more">
+              <button
+                type="button"
+                className="load-more-button"
+                onClick={loadMore}
+                disabled={loadingMore}
+              >
+                {loadingMore ? 'Loading...' : 'Load more movies'}
+              </button>
+            </div>
+          )}
+        </>
       )}
     </main>
   );
