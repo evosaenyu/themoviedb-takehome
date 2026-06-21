@@ -6,11 +6,12 @@ type MovieCardProps = {
   genre: string;
   rating: number;
   posterUrl?: string;
+  overview: string;
 };
 
-function MovieCard({ title, year, genre, rating, posterUrl }: MovieCardProps) {
+function MovieCard({ title, year, genre, rating, posterUrl, overview }: MovieCardProps) {
   return (
-    <article className="movie-card">
+    <article className="movie-card" tabIndex={0}>
       {posterUrl ? (
         <img className="movie-card-poster" src={posterUrl} alt={title} />
       ) : (
@@ -22,6 +23,9 @@ function MovieCard({ title, year, genre, rating, posterUrl }: MovieCardProps) {
           {year} · {genre}
         </p>
         <p className="movie-card-rating">Rating: {rating.toFixed(1)}</p>
+      </div>
+      <div className="movie-card-tooltip" role="tooltip">
+        <p>{overview || 'No overview available.'}</p>
       </div>
     </article>
   );

@@ -134,6 +134,7 @@ function App() {
                   ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
                   : undefined
               }
+              overview={movie.overview}
             />
           ))}
         </div>

@@ -1,9 +1,15 @@
 .movie-card {
+  position: relative;
   background: var(--color-card);
   border: 1px solid var(--color-card-border);
   border-radius: 8px;
   width: 100%;
   overflow: hidden;
+}
+
+.movie-card:focus-visible {
+  outline: 2px solid var(--color-muted);
+  outline-offset: 2px;
 }
 
 .movie-card-poster {
@@ -37,4 +43,31 @@
 
 .movie-card-rating {
   margin-top: 8px;
+}
+
+.movie-card-tooltip {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.88);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.movie-card-tooltip p {
+  margin: 0;
+  max-height: 100%;
+  overflow-y: auto;
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: var(--color-text);
+}
+
+.movie-card:hover .movie-card-tooltip,
+.movie-card:focus-within .movie-card-tooltip,
+.movie-card:focus-visible .movie-card-tooltip {
+  opacity: 1;
 }

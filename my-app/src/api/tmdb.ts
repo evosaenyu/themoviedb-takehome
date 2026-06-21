@@ -7,6 +7,7 @@ export type TmdbMovie = {
   vote_average: number;
   genre_ids: number[];
   poster_path: string | null;
+  overview: string;
 };
 
 export type DiscoverMoviesResponse = {
