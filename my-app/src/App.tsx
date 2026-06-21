@@ -21,20 +21,22 @@ function App() {
     <main className="app">
       <h1 className="app-title">Movies</h1>
       {error && <p>{error}</p>}
-      {movies.map((movie) => (
-        <MovieCard
-          key={movie.id}
-          title={movie.title}
-          year={Number(movie.release_date?.slice(0, 4)) || 0}
-          genre="—"
-          rating={movie.vote_average}
-          posterUrl={
-            movie.poster_path
-              ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
-              : undefined
-          }
-        />
-      ))}
+      <div className="movie-grid">
+        {movies.map((movie) => (
+          <MovieCard
+            key={movie.id}
+            title={movie.title}
+            year={Number(movie.release_date?.slice(0, 4)) || 0}
+            genre="—"
+            rating={movie.vote_average}
+            posterUrl={
+              movie.poster_path
+                ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+                : undefined
+            }
+          />
+        ))}
+      </div>
     </main>
   );
 }
