@@ -41,3 +41,18 @@ export type MovieCardProps = {
   posterUrl?: string;
   overview: string;
 };
+
+export type ToolbarProps = {
+  genres: Genre[];
+  selectedGenreId: number | null;
+  onGenreChange: (genreId: number | null) => void;
+  sortBy: SortOption;
+  onSortByChange: (sortBy: SortOption) => void;
+  sortOrder: SortOrder;
+  onSortOrderChange: (sortOrder: SortOrder) => void;
+};
+
+export type LoadMoreButtonProps = {
+  onClick: () => void;
+  loading: boolean;
+};

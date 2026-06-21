@@ -1,0 +1,26 @@
+.movie-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 20px;
+}
+
+@media (min-width: 640px) {
+  .movie-grid {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 24px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .movie-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+}
+
+.movie-grid-empty {
+  padding: 48px 24px;
+  border: 1px dashed var(--color-card-border);
+  border-radius: 8px;
+  color: var(--color-muted);
+  text-align: center;
+}
