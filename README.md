@@ -15,8 +15,8 @@ I used the following command to bootstrap this project:
 should run on localhost:3000
 
 ## Test
-I added some really basic unit tests, using dummy data, for the Movie card, grid, and filter section. You can test with:
-- `npm test`
+I added some really basic unit tests, using dummy data, for the Movie card, grid, and filter section. You can test everything with:
+- `npm test -- --watchAll=false`
 
 ## Future considerations
 - I think a search bar, powered by something like meilisearch, would be very nice to have, maybe even an AI-powered one to help find a title based on its synopsis (overview as the api calls it).
