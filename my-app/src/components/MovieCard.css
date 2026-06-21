@@ -49,8 +49,8 @@
   position: absolute;
   inset: 0;
   display: flex;
-  align-items: flex-end;
-  padding: 12px;
+  align-items: flex-start;
+  padding: 24px;
   background: rgba(0, 0, 0, 0.88);
   opacity: 0;
   pointer-events: none;
