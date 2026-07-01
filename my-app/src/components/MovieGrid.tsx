@@ -6,6 +6,7 @@ import LoadMoreButton from './LoadMoreButton';
 import MovieCard from './MovieCard';
 import Toolbar from './Toolbar';
 import './MovieGrid.css';
+import Search from './Search';
 
 const INITIAL_PAGE_COUNT = 2;
 const LOAD_MORE_PAGE_COUNT = 2;
@@ -22,6 +23,7 @@ function MovieGrid() {
   const [selectedGenreId, setSelectedGenreId] = useState<number | null>(null);
   const [sortBy, setSortBy] = useState<SortOption>('rating');
   const [sortOrder, setSortOrder] = useState<SortOrder>('desc');
+  const [searchResults, setSearchResults] = useState<TmdbMovie[]>([]);
 
   useEffect(() => {
     getMovieGenres()
@@ -35,7 +37,7 @@ function MovieGrid() {
 
   useEffect(() => {
     setSortedMovieCount(movies.length);
-  }, [sortBy, sortOrder]);
+  }, [sortBy, sortOrder, movies.length]);
 
   useEffect(() => {
     setLoading(true);
@@ -77,8 +79,8 @@ function MovieGrid() {
   }, [hasMore, lastLoadedPage, loadingMore, totalPages]);
 
   const displayedMovies = useMemo(() => {
-    const sortedSource = movies.slice(0, sortedMovieCount);
-    const appendedSource = movies.slice(sortedMovieCount);
+    const sortedSource = searchResults.length > 0 ? searchResults : movies.slice(0, sortedMovieCount);
+    const appendedSource = searchResults.length > 0 ? [] : movies.slice(sortedMovieCount);
 
     const sortedMovies = sortMovies(
       filterByGenre(sortedSource, selectedGenreId),
@@ -88,10 +90,11 @@ function MovieGrid() {
     const appendedMovies = filterByGenre(appendedSource, selectedGenreId);
 
     return [...sortedMovies, ...appendedMovies];
-  }, [movies, sortedMovieCount, selectedGenreId, sortBy, sortOrder]);
+  }, [movies, sortedMovieCount, selectedGenreId, sortBy, sortOrder, searchResults]);
 
   return (
     <>
+      <Search setSearchResults={setSearchResults} />
       <Toolbar
         genres={genres}
         selectedGenreId={selectedGenreId}
